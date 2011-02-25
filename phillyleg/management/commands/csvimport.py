@@ -11,6 +11,7 @@ class Command(BaseCommand):
     def handle(self,  *args, **options):
         csvpath = args[0]
         reader = csv.reader(open(csvpath, 'r'))
+        reader.next()
         for row in reader:
             d = {
                 'status': row[0],
