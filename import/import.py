@@ -18,7 +18,7 @@ for row in reader:
     _controlling_body = row[4]
     _contact = row[5]
     _version = row[6]
-    _key = row[7]
+    _key = int(row[7])
     _final_date = row[8]
     _intro_date = row[9]
     _type = row[10]
