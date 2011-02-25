@@ -18,6 +18,7 @@ urlpatterns = patterns('',
 
     (r'^subs/$', 'phillyleg.views.index'),
     (r'^subs/create/$', 'phillyleg.views.create'),
-    (r'^subs/(?P<subscription_id>\d+)/$', 'phillyleg.views.edit'),
+    (r'^subs/unsubscribe/$', 'phillyleg.views.unsubscribe'),
+    #(r'^subs/(?P<subscription_id>\d+)/$', 'phillyleg.views.edit'),
     (r'^subs/delete/$', 'phillyleg.views.delete')
 )
