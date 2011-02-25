@@ -15,7 +15,7 @@ class Command(BaseCommand):
 		smtpport = '465'
 		me =  'philly.legislative.list'
 		msg = MIMEText(emailbody)
-		msg['Subject'] = "Philly Legislative Digest: %s"%text
+		msg['Subject'] = "Philly Legislative Digest: %s"%", ".join(text)
 		msg['From'] = me
 		msg['To'] = you
 		s = smtplib.SMTP_SSL(smtphost, smtpport)
