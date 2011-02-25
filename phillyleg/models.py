@@ -14,3 +14,8 @@ class Keyword(models.Model):
     
     def __unicode__(self):
         return self.keyword
+
+class CouncilMember(models.Model):
+    subcription = models.ForeignKey(Subscription)
+    name = models.CharField(max_length=100)
+
