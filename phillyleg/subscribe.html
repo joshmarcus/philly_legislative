@@ -8,29 +8,29 @@
 	<div class="center">
 	<h1>Subscribe to City Council Legislation Digest</h1>
 	<p>Subscribe to be sent a daily email digest of City Council legislation.<br/>  You can subscribe to legislation by keyword (currently based on the title of the bill), or by council member.</p>
-	<form>
+	<form method="POST" action="create/">
 		<label for="email">Your email address:</label> <input type="email" name="email" id="email"/><br/>
 		<p>Enter a list of words separated by commas. Your daily email will list all bills that contain any of these words.</p>
 		<textarea name="keywords" id="keywords" rows="6" cols="30"></textarea>
 		<p>Select one or more council members whose legislation you want to subscribe to.</p>
-		<select multiple="multiple">
-			<option>Blackwell, Jannie</option>
-			<option>Clarke, Darrell</option>
-			<option>DiCiccio, Frank</option>
-			<option>Goode, Jr., W. Wilson</option>
-			<option>Green, Bill</option>
-			<option>Greenlee, William K.</option>
-			<option>Jones, Jr., Curtis</option>
-			<option>Kelly, Jack</option>
-			<option>Kenney, James</option>
-			<option>Krajewski, Joan</option>
-			<option>Miller, Donna</option>
-			<option>O'Neill, Brian</option>
-			<option>Quiñones-Sánchez, Maria D.</option>
-			<option>Reynolds Brown, Blondell</option>
-			<option>Rizzo, Jr., Frank</option>
-			<option>Tasco, Marian</option>
-			<option>Verna, Anna</option>	
+		<select multiple="multiple" name="council" id="council">
+			<option value="Blackwell">Blackwell, Jannie</option>
+			<option value="Clarke">Clarke, Darrell</option>
+			<option value="DiCiccio">DiCiccio, Frank</option>
+			<option value="Goode">Goode, Jr., W. Wilson</option>
+			<option value="Green">Green, Bill</option>
+			<option value="Greenlee">Greenlee, William K.</option>
+			<option value="Jones">Jones, Jr., Curtis</option>
+			<option value="Kelly">Kelly, Jack</option>
+			<option value="Kenney">Kenney, James</option>
+			<option value="Krajewski">Krajewski, Joan</option>
+			<option value="Miller">Miller, Donna</option>
+			<option value="O'Neill">O'Neill, Brian</option>
+			<option value="Quiñones-Sánchez">Quiñones-Sánchez, Maria D.</option>
+			<option value="Reynolds Brown">Reynolds Brown, Blondell</option>
+			<option value="Rizzo">Rizzo, Jr., Frank</option>
+			<option value="Tasco">Tasco, Marian</option>
+			<option value="Verna">Verna, Anna</option>	
 		</select><br/>
 		<input type="submit" value="Subscribe" id="subscribe"/>
 	</form>

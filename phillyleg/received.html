@@ -7,10 +7,14 @@
 <body>
 	<div class="center">
 	<h1>Thank you for subscribing.</h1>
-	<p>We have added {{email address}} to our database for the following keywords and council members:</p>
+	<p>We have added {{ emailvar }} to our database for the following keywords and council members:</p>
 	<ul>
-		<li>{{council member}}</li>
-		<li>{{keyword}}</li>
+		{% for member in members %}
+		<li>{{ member }}</li>
+		{% endfor %}
+		{% for word in keylist %}
+		<li>{{ word }}</li>
+		{% endfor %}
 	</ul>
 	</div>
 </body>
