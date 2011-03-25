@@ -1,3 +1,11 @@
+import os
+
+# Make filepaths relative to settings.
+def rel_path(*subs):
+	"""Make filepaths relative to this settings file"""
+	root_path = os.path.dirname(os.path.abspath(__file__))
+	return os.path.join(root_path, *subs)
+
 # Django settings for philly_legislative project.
 
 DEBUG = True
@@ -69,7 +77,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-	'/Users/bri/Desktop/phillyles/philly_legislative/phillyleg'
+	rel_path('phillyleg')
 )
 
 INSTALLED_APPS = (
@@ -78,7 +86,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
-    'phillyleg'
+    'philly_legislative.phillyleg'
 )
 
 #AUTH_PROFILE_MODULE = 'phillyleg.subscription'
