@@ -17,7 +17,7 @@ class TestLoadLegFiles (unittest.TestCase):
         html = open(os.path.join(self.tests_dir, 'key73.html')).read()
         soup = bs.BeautifulSoup(html)
         
-        file_record, action_records = \
+        file_record, attachment_records, action_records = \
             scrape_legis_file(73, soup)
         
         self.assertEqual(

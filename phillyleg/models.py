@@ -24,6 +24,7 @@ class CouncilMember(models.Model):
 
 class LegFile(models.Model):
     key = models.IntegerField(primary_key=True)
+    id = models.CharField(max_length=100)
     contact = models.CharField(max_length=1000)
     controlling_body = models.CharField(max_length=1000)
     date_scraped = models.CharField(max_length=1000)
@@ -31,10 +32,18 @@ class LegFile(models.Model):
     intro_date = models.CharField(max_length=1000)
     sponsors = models.CharField(max_length=1000)
     status = models.CharField(max_length=1000)
-    title = models.CharField(max_length=1000)
+    title = models.TextField()
     type = models.CharField(max_length=1000)
     url = models.CharField(max_length=1000)
     version = models.CharField(max_length=100)
+
+class LegFileAttachment(models.Model):
+    file = models.ForeignKey(LegFile)
+    description = models.CharField(max_length=1000)
+    url = models.CharField(max_length=1000)
+    
+    class Meta:
+        unique_together = (('file','url'),)
 
 class LegAction(models.Model):
     file = models.ForeignKey(LegFile)
