@@ -14,7 +14,7 @@ from BeautifulSoup import BeautifulSoup
 from phillyleg.models import LegFile
 
 class Command(BaseCommand):
-    help = "test help"
+    help = "Load new legislative file data from the Legistar city council site."
     
     def handle(self, *args, **options):
         last_key = get_latest_key()
