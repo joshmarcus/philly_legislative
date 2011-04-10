@@ -6,32 +6,17 @@
 #will send out daily email for users - first will read all keywords
 #create text files, then email text files to all each user subscribed.
 
+import urllib2
 from django.core.management.base import BaseCommand, CommandError
-import smtplib, poplib
 import django
-from email.mime.text import MIMEText
 from BeautifulSoup import BeautifulSoup
 
 from phillyleg.models import LegFile
 
 class Command(BaseCommand):
-	help = "test help"
-	
-	def send_email(self, you, text, emailbody):
-		smtphost = "smtp.gmail.com"
-		smtpport = '465'
-		me =  'philly.legislative.list'
-		msg = MIMEText(emailbody)
-		msg['Subject'] = "Philly Legislative Digest: %s"%", ".join(text)
-		msg['From'] = me
-		msg['To'] = you
-		s = smtplib.SMTP_SSL(smtphost, smtpport)
-		s.login(me, 'phillydatacamp')
-		s.sendmail(me, [you], msg.as_string())
-		s.quit()
-
-	def handle(self, *args, **options):
-        # First, get the latest filings
+    help = "test help"
+    
+    def handle(self, *args, **options):
         last_key = get_latest_key()
         curr_key = last_key
 
@@ -42,19 +27,13 @@ class Command(BaseCommand):
                 break
             
             record = scrape_legis_file(curr_key, soup)
-            save_record(record)
-            scraperwiki.datastore.save(['key'], record)
-            
+            save_legis_file(record)
 
-			
-	def makeBillEmail(self, keyw):
-		bill = LegFile.objects.filter(title__icontains=keyw)
-		body =""
-		for b in bill:
-			body += b.title + "\n"
-		return body
-	
-# retrieve a page
+##
+# The following is adapted from the scraper at 
+# http://scraperwiki.com/scrapers/philadelphia_legislative_files/
+#
+
 starting_url = 'http://legislation.phila.gov/detailreport/?key='
 starting_key = 11001 # The highest key was 11001 as of 5 Apr 2011
 
@@ -115,16 +94,11 @@ def is_error_page(soup):
 def get_latest_key():
     '''Check the datastore for the key of the most recent filing.'''
 
-    max_key = starting_key
-
-    scraperwiki.sqlite.attach('philadelphia_legislative_files') 
-    records = scraperwiki.sqlite.select('* from `philadelphia_legislative_files`.swdata')
-
-    for record in records:
-        if isinstance(record, basestring):
-            continue # If there are no elements, a string will be returned
-        max_key = max(max_key, record['key'])
-    return int(max_key)
+    records = LegFile.objects.order_by('-key')
+    try:
+        return records[0].key
+    except IndexError:
+        return starting_key
 
 def check_for_new_content(last_key):
     '''Look through the next 10 keys to see if there are any more files.
@@ -133,7 +107,7 @@ def check_for_new_content(last_key):
     curr_key = last_key
     for _ in xrange(10):
         curr_key = curr_key + 1
-        html = scraperwiki.scrape(starting_url + str(curr_key))
+        html = urllib2.urlopen(starting_url + str(curr_key)).read()
         soup = BeautifulSoup(html)
     
         if not is_error_page(soup):
@@ -146,5 +120,6 @@ def save_legis_file(record):
     Take a legislative file record and do whatever needs to be
     done to get it into the database.
     """
-    scraperwiki.datastore.save(['key'], record)
+    legfile = LegFile(**record)
+    legfile.save()
 
