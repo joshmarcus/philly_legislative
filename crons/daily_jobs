@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Set COUNCILMATIC_DIR to the absolute path of the Django project's root folder.
+COUNCILMATIC_DIR=..
+
+cd $COUNCILMATIC_DIR
+python manage.py loadlegfiles
+
