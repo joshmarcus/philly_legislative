@@ -1,0 +1,339 @@
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+	<HEAD>
+		<title>Master Detail Report</title>
+		<meta content="True" name="vs_showGrid">
+		<meta content="False" name="vs_snapToGrid">
+		<meta content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">
+		<meta content="Visual Basic .NET 7.1" name="CODE_LANGUAGE">
+		<meta content="author" name="natalyav@daystarnet.com">
+		<meta content="JavaScript" name="vs_defaultClientScript">
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+		<LINK rev="stylesheet" href="Styles.css" type="text/css" rel="stylesheet">
+		<script language="javascript" defer>
+		function CustomPrint(pHeader, pFooter, blnPortrait, pLeftMargin, pRightMargin, pTopMargin, pBottomMargin)
+		{
+		document.getElementById('panOriginalViewPrint').style.display = 'none';		
+		if(navigator.appName == "Microsoft Internet Explorer") // IE only
+			{
+				if (factory)
+				{					
+					var original_h = factory.printing.header;
+					var original_f = factory.printing.footer;
+					var original_l = factory.printing.leftMargin;
+					var original_r = factory.printing.rightMargin;
+					var original_t = factory.printing.topMargin;
+					var original_b = factory.printing.bottomMargin;
+				  
+					//Set the page margins if supplied.
+					if (pLeftMargin != null){
+					factory.printing.leftMargin = pLeftMargin;}
+					if (pRightMargin != null){
+					factory.printing.rightMargin = pRightMargin;}
+					if (pTopMargin != null){
+					factory.printing.topMargin = pTopMargin;}
+					if (pBottomMargin != null){
+					factory.printing.bottomMargin = pBottomMargin;}
+				   
+					//set header and footer to blank
+					factory.printing.header = pHeader;
+					factory.printing.footer = pFooter;
+				  
+					//Set orientation.
+					factory.printing.portrait = blnPortrait;
+				  
+					//print page with prompt
+					factory.DoPrint(true);
+				  
+					//restore user's info
+					factory.printing.leftMargin = original_l;
+					factory.printing.rightMargin = original_r;
+					factory.printing.topMargin = original_t;
+					factory.printing.bottomMargin = original_b;			
+					factory.printing.header = original_h;
+					factory.printing.footer = original_f;
+				}
+				else
+				{
+					window.print();
+				}
+			}
+		else // any other browser
+		{ 
+			window.print();
+		}
+		document.getElementById('panOriginalViewPrint').style.display = 'inline';
+		}
+		</script>
+	</HEAD>
+	<body bgColor="#ffffff">
+		<OBJECT id="factory" style="DISPLAY: none" codeBase="http://www.meadroid.com/scriptx/ScriptX.cab#Version=6,1,432,1"
+			classid="clsid:1663ed61-23eb-11d2-b92f-008048fdd814" VIEWASTEXT>
+		</OBJECT>
+		<form name="Form1" method="post" action="Matter.aspx?key=73" id="Form1">
+<input type="hidden" name="__VIEWSTATE" value="dDwtODYyNDI1MjQ0O3Q8O2w8aTwxPjs+O2w8dDw7bDxpPDE+O2k8Mj47PjtsPHQ8cDxwPGw8QmFja0NvbG9yO18hU0I7PjtsPDI8VHJhbnNwYXJlbnQ+O2k8OD47Pj47cDxsPHN0eWxlOz47bDxaLUlOREVYOjEwMFw7TEVGVDowcHhcO1BPU0lUSU9OOmFic29sdXRlXDtUT1A6MHB4XDtMZWZ0OjVweFw7Oz4+PjtsPGk8MT47PjtsPHQ8O2w8aTwzPjtpPDc+O2k8OT47aTwxMT47aTwxMz47aTwxNT47aTwxNz47aTwxOT47aTwyMT47aTwyMz47aTwyNT47aTwyNz47aTwyOT47aTwzMT47aTwzMz47aTwzNT47aTwzNz47aTwzOT47PjtsPHQ8cDxwPGw8VGV4dDs+O2w8Q2l0eSBvZiBQaGlsYWRlbHBoaWENCjs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8MDAwMDAyOz4+Oz47Oz47dDw7bDxpPDE+Oz47bDx0PHA8cDxsPE5hdmlnYXRlVXJsOz47bDwvZGV0YWlscmVwb3J0L01hdHRlci5hc3B4P2tleT03MyZtb2RlPXByaW50Oz4+Oz47Oz47Pj47dDw7bDxpPDM+O2k8Nz47PjtsPHQ8cDxwPGw8VGV4dDs+O2w8UmVzb2x1dGlvbjs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8QURPUFRFRDs+Pjs+Ozs+Oz4+O3Q8cDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+Pjs+Ozs+O3Q8O2w8aTwzPjs+O2w8dDxwPHA8bDxUZXh0Oz47bDxQcm92aWRpbmcgZm9yIHRoZSBhcHByb3ZhbCBieSB0aGUgQ291bmNpbCBvZiB0aGUgQ2l0eSBvZiBQaGlsYWRlbHBoaWEgb2YgYSBSZXZpc2VkIEZpdmUgWWVhciBGaW5hbmNpYWwgUGxhbiBmb3IgdGhlIENpdHkgb2YgUGhpbGFkZWxwaGlhIGNvdmVyaW5nIEZpc2NhbCBZZWFycyAyMDAxIHRocm91Z2ggMjAwNSwgYW5kIGluY29ycG9yYXRpbmcgcHJvcG9zZWQgY2hhbmdlcyB3aXRoIHJlc3BlY3QgdG8gRmlzY2FsIFllYXIgMjAwMCwgd2hpY2ggaXMgdG8gYmUgc3VibWl0dGVkIGJ5IHRoZSBNYXlvciB0byB0aGUgUGVubnN5bHZhbmlhIEludGVyZ292ZXJubWVudGFsIENvb3BlcmF0aW9uIEF1dGhvcml0eSAodGhlICJBdXRob3JpdHkiKSBwdXJzdWFudCB0byB0aGUgSW50ZXJnb3Zlcm5tZW50YWwgQ29vcGVyYXRpb24gQWdyZWVtZW50LCBhdXRob3JpemVkIGJ5IGFuIG9yZGluYW5jZSBvZiB0aGlzIENvdW5jaWwgYXBwcm92ZWQgYnkgdGhlIE1heW9yIG9uIEphbnVhcnkgMywgMTk5MiAoQmlsbCBOby4gMTU2My1BKSwgYnkgYW5kIGJldHdlZW4gdGhlIENpdHkgYW5kIHRoZSBBdXRob3JpdHkuOz4+Oz47Oz47Pj47dDw7bDxpPDM+Oz47bDx0PHA8cDxsPFRleHQ7PjtsPFNlbGVjdCBDb21taXR0ZWUgb24gRmlzY2FsIFN0YWJpbGl0eSBhbmQgSW50ZXJnb3Zlcm5tZW50YWwgQ29vcGVyYXRpb24gOz4+Oz47Oz47Pj47dDw7bDxpPDM+O2k8Nz47PjtsPHQ8cDxwPGw8VGV4dDs+O2w8Mi8zLzIwMDA7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDA7Pj47Pjs7Pjs+Pjt0PDtsPGk8Mz47aTw3Pjs+O2w8dDxwPHA8bDxUZXh0Oz47bDwzLzMwLzIwMDA7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPFxlOz4+Oz47Oz47Pj47dDxwPHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+Oz47Oz47dDxwPHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+Oz47Oz47dDxwPHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+Oz47Oz47dDw7bDxpPDM+Oz47bDx0PHA8cDxsPFRleHQ7PjtsPENvdW5jaWxtZW1iZXIgQmxhY2t3ZWxsOz4+Oz47Oz47Pj47dDw7bDxpPDM+Oz47bDx0PEAwPHA8cDxsPF8hSXRlbUNvdW50O0RhdGFLZXlzOz47bDxpPDE+O2w8Pjs+Pjs+Ozs7Ozs7Ozs+O2w8aTwwPjs+O2w8dDw7bDxpPDA+Oz47bDx0PEA8XDxhIGhyZWY9J2h0dHA6Ly9sZWdpc2xhdGlvbi5waGlsYS5nb3YvYXR0YWNobWVudHMvNzk0OS5wZGYnIHRhcmdldD0nX2JsYW5rJ1w+UmVzb2x1dGlvbiBOby4wMDAwMDIwMC5wZGZcPC9hXD47Pjs7Pjs+Pjs+Pjs+Pjt0PDtsPGk8Mz47aTw1Pjs+O2w8dDxAMDxwPHA8bDxQYWdlQ291bnQ7XyFJdGVtQ291bnQ7XyFEYXRhU291cmNlSXRlbUNvdW50O0RhdGFLZXlzOz47bDxpPDE+O2k8MD47aTwwPjtsPD47Pj47PjtAMDxAMDw7cDxsPEZvbnRfQm9sZDtfIVNCOz47bDxvPHQ+O2k8MjA0OD47Pj47Ozs+Ozs+Ozs7Ozs7Ozs7Pjs7Pjt0PEAwPDs7Ozs7Ozs7Pjs7Pjs+Pjt0PDtsPGk8MT47aTw1Pjs+O2w8dDxwPHA8bDxUZXh0Oz47bDxMZWdpc2xhdGl2ZSBIaXN0b3J5Oz4+Oz47Oz47dDxAMDxwPHA8bDxfIUl0ZW1Db3VudDtQYWdlQ291bnQ7XyFEYXRhU291cmNlSXRlbUNvdW50O0RhdGFLZXlzOz47bDxpPDEyPjtpPDE+O2k8MTI+O2w8Pjs+Pjs+O0AwPEAwPDtwPGw8V2lkdGg7XyFTQjs+O2w8MTw2M3B4PjtpPDI1Nj47Pj47Ozs+O0AwPDtwPGw8V2lkdGg7XyFTQjs+O2w8MTwyMjFweD47aTwyNTY+Oz4+Ozs7PjtAMDw7cDxsPFdpZHRoO18hU0I7PjtsPDE8MjUzcHg+O2k8MjU2Pjs+Pjs7Oz47QDA8O3A8bDxXaWR0aDtfIVNCOz47bDwxPDk1cHg+O2k8MjU2Pjs+Pjs7Oz47QDA8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47Ozs7Pjs7Pjs7Ozs7Ozs7Oz47bDxpPDA+Oz47bDx0PDtsPGk8MD47aTwxPjtpPDI+O2k8Mz47aTw0PjtpPDU+O2k8Nj47aTw3PjtpPDg+O2k8OT47aTwxMD47aTwxMT47aTwxMj47aTwxMz47PjtsPHQ8O2w8aTwwPjtpPDE+O2k8Mj47aTwzPjtpPDQ+O2k8NT47PjtsPHQ8cDxwPGw8VG9vbFRpcDs+O2w8XGU7Pj47Pjs7Pjt0PHA8cDxsPEhlaWdodDtUb29sVGlwO18hU0I7PjtsPDE8M3B4PjtcZTtpPDEyOD47Pj47Pjs7Pjt0PHA8cDxsPFRvb2xUaXA7PjtsPFxlOz4+Oz47Oz47dDxwPHA8bDxUb29sVGlwOz47bDxcZTs+Pjs+Ozs+O3Q8cDxwPGw8VG9vbFRpcDs+O2w8XGU7Pj47Pjs7Pjt0PHA8cDxsPFRvb2xUaXA7PjtsPFxlOz4+Oz47Oz47Pj47dDxwPHA8bDxCYWNrQ29sb3I7XyFTQjs+O2w8MjxXaGl0ZVNtb2tlPjtpPDg+Oz4+Oz47bDxpPDA+O2k8MT47aTwyPjtpPDM+O2k8ND47aTw1Pjs+O2w8dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPDIvMy8yMDAwOzIvMy8yMDAwOz4+Oz47Oz47dDxwPHA8bDxUZXh0O0hlaWdodDtUb29sVGlwO18hU0I7PjtsPENJVFkgQ09VTkNJTDsxPDNweD47Q0lUWSBDT1VOQ0lMO2k8MTI4Pjs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDtUb29sVGlwOz47bDxJbnRyb2R1Y2VkIChCeSBSZXF1ZXN0KSBhbmQgUmVmZXJyZWQ7SW50cm9kdWNlZCAoQnkgUmVxdWVzdCkgYW5kIFJlZmVycmVkOz4+Oz47Oz47dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPFBhc3M7UGFzczs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDtUb29sVGlwOz47bDwmbmJzcFw7O1xlOz4+Oz47Oz47dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPDA7MDs+Pjs+Ozs+Oz4+O3Q8cDxwPGw8QmFja0NvbG9yO18hU0I7PjtsPDI8V2hpdGU+O2k8OD47Pj47PjtsPGk8MD47aTwxPjtpPDI+O2k8Mz47aTw0PjtpPDU+Oz47bDx0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8Mi8zLzIwMDA7Mi8zLzIwMDA7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7SGVpZ2h0O1Rvb2xUaXA7XyFTQjs+O2w8Q0lUWSBDT1VOQ0lMOzE8M3B4PjtDSVRZIENPVU5DSUw7aTwxMjg+Oz4+Oz47Oz47dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPFJlZmVycmVkIHRvIHRoZSBTZWxlY3QgQ29tbWl0dGVlIG9uIEZpc2NhbCBTdGFiaWxpdHkgYW5kIEludGVyZ292ZXJubWVudGFsIENvb3BlcmF0aW9uIDtSZWZlcnJlZCB0byB0aGUgU2VsZWN0IENvbW1pdHRlZSBvbiBGaXNjYWwgU3RhYmlsaXR5IGFuZCBJbnRlcmdvdmVybm1lbnRhbCBDb29wZXJhdGlvbiA7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8IDsgOz4+Oz47Oz47dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPCZuYnNwXDs7XGU7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8MTsxOz4+Oz47Oz47Pj47dDxwPHA8bDxCYWNrQ29sb3I7XyFTQjs+O2w8MjxXaGl0ZVNtb2tlPjtpPDg+Oz4+Oz47bDxpPDA+O2k8MT47aTwyPjtpPDM+O2k8ND47aTw1Pjs+O2w8dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPDIvNy8yMDAwOzIvNy8yMDAwOz4+Oz47Oz47dDxwPHA8bDxUZXh0O0hlaWdodDtUb29sVGlwO18hU0I7PjtsPFNlbGVjdCBDb21taXR0ZWUgb24gRmlzY2FsIFN0YWJpbGl0eSBhbmQgSW50ZXJnb3Zlcm5tZW50YWwgQ29vcGVyYXRpb24gOzE8M3B4PjtTZWxlY3QgQ29tbWl0dGVlIG9uIEZpc2NhbCBTdGFiaWxpdHkgYW5kIEludGVyZ292ZXJubWVudGFsIENvb3BlcmF0aW9uIDtpPDEyOD47Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8UkVDRVNTRUQ7UkVDRVNTRUQ7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8IDsgOz4+Oz47Oz47dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPCZuYnNwXDs7XGU7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8MDswOz4+Oz47Oz47Pj47dDxwPHA8bDxCYWNrQ29sb3I7XyFTQjs+O2w8MjxXaGl0ZVNtb2tlPjtpPDg+Oz4+Oz47bDxpPDA+O2k8MT47PjtsPHQ8cDxwPGw8VGV4dDs+O2w8XGU7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7SGVpZ2h0O1Rvb2xUaXA7Rm9udF9Cb2xkO0ZvbnRfSXRhbGljO0NvbHVtblNwYW47V2lkdGg7XyFTQjs+O2w8XDxiXD5Ob3RlczpcPC9iXD4gIFRhYmxlZCB1bnRpbCAzLzE0LzAwIGF0IDk6MDAgQS5NLjsxPDNweD47Tm90ZXM6ICBUYWJsZWQgdW50aWwgMy8xNC8wMCBhdCA5OjAwIEEuTS47bzx0PjtvPHQ+O2k8NT47MTwwcHg+O2k8NjUyOD47Pj47cDxsPGFsaWduOz47bDxyaWdodDs+Pj47Oz47Pj47dDxwPHA8bDxCYWNrQ29sb3I7XyFTQjs+O2w8MjxXaGl0ZT47aTw4Pjs+Pjs+O2w8aTwwPjtpPDE+O2k8Mj47aTwzPjtpPDQ+O2k8NT47PjtsPHQ8cDxwPGw8VGV4dDtUb29sVGlwOz47bDwzLzEzLzIwMDA7My8xMy8yMDAwOz4+Oz47Oz47dDxwPHA8bDxUZXh0O0hlaWdodDtUb29sVGlwO18hU0I7PjtsPFNlbGVjdCBDb21taXR0ZWUgb24gRmlzY2FsIFN0YWJpbGl0eSBhbmQgSW50ZXJnb3Zlcm5tZW50YWwgQ29vcGVyYXRpb24gOzE8M3B4PjtTZWxlY3QgQ29tbWl0dGVlIG9uIEZpc2NhbCBTdGFiaWxpdHkgYW5kIEludGVyZ292ZXJubWVudGFsIENvb3BlcmF0aW9uIDtpPDEyOD47Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8SEVBUklORyBOT1RJQ0VTIFNFTlQ7SEVBUklORyBOT1RJQ0VTIFNFTlQ7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8IDsgOz4+Oz47Oz47dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPCZuYnNwXDs7XGU7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8MTsxOz4+Oz47Oz47Pj47dDxwPHA8bDxCYWNrQ29sb3I7XyFTQjs+O2w8MjxXaGl0ZVNtb2tlPjtpPDg+Oz4+Oz47bDxpPDA+O2k8MT47aTwyPjtpPDM+O2k8ND47aTw1Pjs+O2w8dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPDMvMTMvMjAwMDszLzEzLzIwMDA7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7SGVpZ2h0O1Rvb2xUaXA7XyFTQjs+O2w8U2VsZWN0IENvbW1pdHRlZSBvbiBGaXNjYWwgU3RhYmlsaXR5IGFuZCBJbnRlcmdvdmVybm1lbnRhbCBDb29wZXJhdGlvbiA7MTwzcHg+O1NlbGVjdCBDb21taXR0ZWUgb24gRmlzY2FsIFN0YWJpbGl0eSBhbmQgSW50ZXJnb3Zlcm5tZW50YWwgQ29vcGVyYXRpb24gO2k8MTI4Pjs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDtUb29sVGlwOz47bDxSRUNFU1NFRDtSRUNFU1NFRDs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDtUb29sVGlwOz47bDwgOyA7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8Jm5ic3BcOztcZTs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDtUb29sVGlwOz47bDwwOzA7Pj47Pjs7Pjs+Pjt0PHA8cDxsPEJhY2tDb2xvcjtfIVNCOz47bDwyPFdoaXRlU21va2U+O2k8OD47Pj47PjtsPGk8MD47aTwxPjs+O2w8dDxwPHA8bDxUZXh0Oz47bDxcZTs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDtIZWlnaHQ7VG9vbFRpcDtGb250X0JvbGQ7Rm9udF9JdGFsaWM7Q29sdW1uU3BhbjtXaWR0aDtfIVNCOz47bDxcPGJcPk5vdGVzOlw8L2JcPiAgdGFibGVkIHVudGlsIDMvMjIvMDAgYXQgOTozMCBBLk0uOzE8M3B4PjtOb3RlczogIHRhYmxlZCB1bnRpbCAzLzIyLzAwIGF0IDk6MzAgQS5NLjtvPHQ+O288dD47aTw1PjsxPDBweD47aTw2NTI4Pjs+PjtwPGw8YWxpZ247PjtsPHJpZ2h0Oz4+Pjs7Pjs+Pjt0PHA8cDxsPEJhY2tDb2xvcjtfIVNCOz47bDwyPFdoaXRlPjtpPDg+Oz4+Oz47bDxpPDA+O2k8MT47aTwyPjtpPDM+O2k8ND47aTw1Pjs+O2w8dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPDMvMjIvMjAwMDszLzIyLzIwMDA7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7SGVpZ2h0O1Rvb2xUaXA7XyFTQjs+O2w8U2VsZWN0IENvbW1pdHRlZSBvbiBGaXNjYWwgU3RhYmlsaXR5IGFuZCBJbnRlcmdvdmVybm1lbnRhbCBDb29wZXJhdGlvbiA7MTwzcHg+O1NlbGVjdCBDb21taXR0ZWUgb24gRmlzY2FsIFN0YWJpbGl0eSBhbmQgSW50ZXJnb3Zlcm5tZW50YWwgQ29vcGVyYXRpb24gO2k8MTI4Pjs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDtUb29sVGlwOz47bDxIRUFSSU5HIE5PVElDRVMgU0VOVDtIRUFSSU5HIE5PVElDRVMgU0VOVDs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDtUb29sVGlwOz47bDwgOyA7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8Jm5ic3BcOztcZTs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDtUb29sVGlwOz47bDwxOzE7Pj47Pjs7Pjs+Pjt0PHA8cDxsPEJhY2tDb2xvcjtfIVNCOz47bDwyPFdoaXRlU21va2U+O2k8OD47Pj47PjtsPGk8MD47aTwxPjtpPDI+O2k8Mz47aTw0PjtpPDU+Oz47bDx0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8My8yMi8yMDAwOzMvMjIvMjAwMDs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDtIZWlnaHQ7VG9vbFRpcDtfIVNCOz47bDxTZWxlY3QgQ29tbWl0dGVlIG9uIEZpc2NhbCBTdGFiaWxpdHkgYW5kIEludGVyZ292ZXJubWVudGFsIENvb3BlcmF0aW9uIDsxPDNweD47U2VsZWN0IENvbW1pdHRlZSBvbiBGaXNjYWwgU3RhYmlsaXR5IGFuZCBJbnRlcmdvdmVybm1lbnRhbCBDb29wZXJhdGlvbiA7aTwxMjg+Oz4+Oz47Oz47dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPFJFUE9SVEVEIEZBVk9SQUJMWTtSRVBPUlRFRCBGQVZPUkFCTFk7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8IDsgOz4+Oz47Oz47dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPCZuYnNwXDs7XGU7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8MDswOz4+Oz47Oz47Pj47dDxwPHA8bDxCYWNrQ29sb3I7XyFTQjs+O2w8MjxXaGl0ZT47aTw4Pjs+Pjs+O2w8aTwwPjtpPDE+O2k8Mj47aTwzPjtpPDQ+O2k8NT47PjtsPHQ8cDxwPGw8VGV4dDtUb29sVGlwOz47bDwzLzIzLzIwMDA7My8yMy8yMDAwOz4+Oz47Oz47dDxwPHA8bDxUZXh0O0hlaWdodDtUb29sVGlwO18hU0I7PjtsPENJVFkgQ09VTkNJTDsxPDNweD47Q0lUWSBDT1VOQ0lMO2k8MTI4Pjs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDtUb29sVGlwOz47bDxSRUFEO1JFQUQ7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8IDsgOz4+Oz47Oz47dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPCZuYnNwXDs7XGU7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8MTsxOz4+Oz47Oz47Pj47dDxwPHA8bDxCYWNrQ29sb3I7XyFTQjs+O2w8MjxXaGl0ZVNtb2tlPjtpPDg+Oz4+Oz47bDxpPDA+O2k8MT47aTwyPjtpPDM+O2k8ND47aTw1Pjs+O2w8dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPDMvMjMvMjAwMDszLzIzLzIwMDA7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7SGVpZ2h0O1Rvb2xUaXA7XyFTQjs+O2w8Q0lUWSBDT1VOQ0lMOzE8M3B4PjtDSVRZIENPVU5DSUw7aTwxMjg+Oz4+Oz47Oz47dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPE9SREVSRUQgUExBQ0VEIE9OIE5FWFQgV0VFS2BTIENBTEVOREFSO09SREVSRUQgUExBQ0VEIE9OIE5FWFQgV0VFS2BTIENBTEVOREFSOz4+Oz47Oz47dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPCA7IDs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDtUb29sVGlwOz47bDwmbmJzcFw7O1xlOz4+Oz47Oz47dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPDA7MDs+Pjs+Ozs+Oz4+O3Q8cDxwPGw8QmFja0NvbG9yO18hU0I7PjtsPDI8V2hpdGU+O2k8OD47Pj47PjtsPGk8MD47aTwxPjtpPDI+O2k8Mz47aTw0PjtpPDU+Oz47bDx0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8My8zMC8yMDAwOzMvMzAvMjAwMDs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDtIZWlnaHQ7VG9vbFRpcDtfIVNCOz47bDxDSVRZIENPVU5DSUw7MTwzcHg+O0NJVFkgQ09VTkNJTDtpPDEyOD47Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7VG9vbFRpcDs+O2w8QURPUFRFRDtBRE9QVEVEOz4+Oz47Oz47dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPCA7IDs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDtUb29sVGlwOz47bDwmbmJzcFw7O1xlOz4+Oz47Oz47dDxwPHA8bDxUZXh0O1Rvb2xUaXA7PjtsPDE7MTs+Pjs+Ozs+Oz4+O3Q8O2w8aTwwPjtpPDE+O2k8Mj47aTwzPjtpPDQ+O2k8NT47PjtsPHQ8cDxwPGw8VG9vbFRpcDs+O2w8XGU7Pj47Pjs7Pjt0PHA8cDxsPEhlaWdodDtUb29sVGlwO18hU0I7PjtsPDE8M3B4PjtcZTtpPDEyOD47Pj47Pjs7Pjt0PHA8cDxsPFRvb2xUaXA7PjtsPFxlOz4+Oz47Oz47dDxwPHA8bDxUb29sVGlwOz47bDxcZTs+Pjs+Ozs+O3Q8cDxwPGw8VG9vbFRpcDs+O2w8XGU7Pj47Pjs7Pjt0PHA8cDxsPFRvb2xUaXA7PjtsPFxlOz4+Oz47Oz47Pj47Pj47Pj47Pj47dDxwPHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+Oz47bDxpPDU+Oz47bDx0PEAwPDtAMDxAMDw7cDxsPFdpZHRoO18hU0I7PjtsPDE8MjUzcHg+O2k8MjU2Pjs+Pjs7Oz47QDA8O3A8bDxXaWR0aDtfIVNCOz47bDwxPDEyNnB4PjtpPDI1Nj47Pj47Ozs+O0AwPDtwPGw8V2lkdGg7XyFTQjs+O2w8MTwyNTNweD47aTwyNTY+Oz4+Ozs7PjtAMDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+Pjs7Ozs+Oz47Ozs7Ozs7Ozs+Ozs+Oz4+O3Q8O2w8aTwxPjs+O2w8dDxwPHA8bDxUZXh0Oz47bDxcPGJyXD5cPHNwYW4gY2xhc3M9J0xQQVNTdHlsZSdcPiZuYnNwXDsmbmJzcFw7cG93ZXJlZCBieSBEYXlzdGFyIENvbXB1dGVyIFN5c3RlbXMsIEluYy5cPC9zcGFuXD47Pj47Pjs7Pjs+Pjs+Pjs+Pjt0PHA8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47PjtsPGk8MT47aTw1PjtpPDE1PjtpPDE3PjtpPDE5PjtpPDIzPjtpPDI1PjtpPDI3PjtpPDI5Pjs+O2w8dDw7bDxpPDk+Oz47bDx0PDtsPGk8MT47PjtsPHQ8cDxwPGw8TmF2aWdhdGVVcmw7PjtsPC9kZXRhaWxyZXBvcnQvTWF0dGVyLmFzcHg/a2V5PTczOz4+Oz47Oz47Pj47Pj47dDxwPHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+Oz47Oz47dDxwPHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+Oz47Oz47dDxwPHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+Oz47Oz47dDxwPHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+Oz47Oz47dDw7bDxpPDM+Oz47bDx0PEAwPDs7Ozs7Ozs7Pjs7Pjs+Pjt0PDtsPGk8Mz47aTw1Pjs+O2w8dDxAMDw7Ozs7Ozs7Ozs7Pjs7Pjt0PEAwPDs7Ozs7Ozs7Pjs7Pjs+Pjt0PDtsPGk8MT47aTw1Pjs+O2w8dDxwPHA8bDxUZXh0Oz47bDxMZWdpc2xhdGl2ZSBIaXN0b3J5Oz4+Oz47Oz47dDxAMDw7Ozs7Ozs7Ozs7Pjs7Pjs+Pjt0PHA8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47PjtsPGk8NT47PjtsPHQ8QDA8Ozs7Ozs7Ozs7Oz47Oz47Pj47Pj47Pj47Pj47PsGCHkSolvfWf+PsHxP9RiBuy7Sl" />
+
+			<div id="panNormal" style="background-color:Transparent;height:156px;width:661px;Z-INDEX:100;LEFT:0px;POSITION:absolute;TOP:0px;Left:5px;">
+	
+				<DIV id="divMainInfo" style="LEFT: 5px; WIDTH: 686px" ms_positioning="FlowLayout">
+					<TABLE id="tblHeadInfo" style="WIDTH: 650px" cellSpacing="0" cellPadding="0">
+						<TR>
+							<TD style="WIDTH: 156px; HEIGHT: 113px" vAlign="middle">
+								<img id="imgLogo" src="image.aspx" alt="" border="0" style="height:110px;width:110px;" /></TD>
+							<TD style="WIDTH: 505px; HEIGHT: 113px">
+								<TABLE style="WIDTH: 511px; HEIGHT: 103px" cellSpacing="0" cellPadding="0">
+									<TR style="WIDTH: 490px">
+										<TD style="WIDTH: 457px; HEIGHT: 96px" align="center">
+											<TABLE style="WIDTH: 459px; HEIGHT: 74px" cellSpacing="0" cellPadding="0">
+												<TR>
+													<TD style="WIDTH: 390px" vAlign="top" align="left">
+														<span id="lblGovName" style="font-family:Arial;font-size:12pt;font-weight:bold;height:48px;width:452px;">City of Philadelphia
+</span></TD>
+												</TR>
+												<TR>
+													<TD style="WIDTH: 390px" vAlign="top" align="left">
+														<span id="lblFileNumber" style="font-family:Arial;font-size:12pt;width:135px;">Legislative File ID</span>&nbsp;&nbsp;
+														<span id="lblFileNumberValue" style="font-family:Arial;font-size:12pt;font-weight:bold;height:8px;width:197px;">000002</span></TD>
+												</TR>
+											</TABLE>
+										</TD>
+										<TD style="WIDTH: 48px; HEIGHT: 96px" vAlign="top">
+											<div id="panOriginalView">
+		
+												<TABLE cellSpacing="0" cellPadding="0">
+													<TR>
+														<TD vAlign="bottom" align="left">
+															<a id="lnkPrint" class="printOriginalVersionLink" href="/detailreport/Matter.aspx?key=73&amp;mode=print" style="width:28px;">display printable version</a></TD>
+													</TR>
+													<TR>
+														<TD vAlign="top" align="left">&nbsp;</TD>
+													</TR>
+												</TABLE>
+											
+	</div></TD>
+									</TR>
+								</TABLE>
+							</TD>
+						</TR>
+						<TR height="1">
+							<TD style="WIDTH: 649px; HEIGHT: 1px" vAlign="top" colSpan="2"><IMG id="imgLine1" style="WIDTH: 649px; HEIGHT: 2px; BACKGROUND-COLOR: black" height="2"
+									alt="" src="img\none_blk.gif" width="649"></TD>
+						</TR>
+					</TABLE>
+					<div id="panTypeStatus" style="height:20px;width:653px;LEFT: 8px">
+		
+						<TABLE height="23" cellSpacing="1" cellPadding="1" width="653">
+							<TR width="650px">
+								<TD align="left" width="107">
+									<span id="lblFileType" style="font-family:Arial;font-size:10pt;width:107px;">Type:</span></TD>
+								<TD width="5">&nbsp;</TD>
+								<TD align="left" width="200">
+									<span id="lblFileTypeValue" style="font-family:Arial;font-size:10pt;font-weight:bold;width:200px;">Resolution</span></TD>
+								<TD align="right" width="120">&nbsp;&nbsp;
+									<span id="lblFileStatus" style="font-family:Arial;font-size:10pt;width:120px;">Status:</span></TD>
+								<TD width="5">&nbsp;</TD>
+								<TD align="left" width="200">
+									<span id="lblFileStatusValue" style="font-family:Arial;font-size:10pt;font-weight:bold;">ADOPTED</span></TD>
+							</TR>
+						</TABLE>
+					
+	</div>
+					
+					<div id="panTitle" style="width:648px;">
+		
+						<TABLE height="48" cellSpacing="1" cellPadding="1" width="653">
+							<TR width="650px">
+								<TD vAlign="top" align="left" width="107" height="47">
+									<span id="lblTitle" style="font-family:Arial;font-size:10pt;width:107px;">Title:</span></TD>
+								<TD width="5" height="47">&nbsp;</TD>
+								<TD vAlign="top" align="left" width="525" height="47">
+									<DIV id="divTitleValue" style="OVERFLOW: auto; WIDTH: 525px; HEIGHT: 52px">
+										<span id="lblTitleValue" style="font-family:Arial;font-size:10pt;font-weight:bold;height:32px;width:504px;">Providing for the approval by the Council of the City of Philadelphia of a Revised Five Year Financial Plan for the City of Philadelphia covering Fiscal Years 2001 through 2005, and incorporating proposed changes with respect to Fiscal Year 2000, which is to be submitted by the Mayor to the Pennsylvania Intergovernmental Cooperation Authority (the "Authority") pursuant to the Intergovernmental Cooperation Agreement, authorized by an ordinance of this Council approved by the Mayor on January 3, 1992 (Bill No. 1563-A), by and between the City and the Authority.</span></DIV>
+								</TD>
+							</TR>
+						</TABLE>
+					
+	</div>
+					<div id="panControllingBody" style="width:648px;">
+		
+						<TABLE id="tblControllingBody" height="20" cellSpacing="1" cellPadding="1" width="653">
+							<TR width="650px">
+								<TD vAlign="top" align="left" width="107" height="20">
+									<span id="lblControllingBody" style="font-family:Arial;font-size:10pt;width:107px;">Controlling Body:</span></TD>
+								<TD width="5" height="20">&nbsp;</TD>
+								<TD align="left" width="525" height="20">
+									<span id="lblControllingBodyValue" style="font-family:Arial;font-size:10pt;font-weight:bold;height:15px;width:525px;">Select Committee on Fiscal Stability and Intergovernmental Cooperation </span></TD>
+							</TR>
+						</TABLE>
+					
+	</div>
+					<div id="panCreatedDateVersion" style="height:20px;width:653px;LEFT: 8px">
+		
+						<TABLE style="HEIGHT: 23px" height="23" cellSpacing="1" cellPadding="1" width="653">
+							<TR width="650px">
+								<TD align="left" width="107">
+									<span id="lblIntroDate" style="font-family:Arial;font-size:10pt;width:107px;">Introduced:</span></TD>
+								<TD width="5">&nbsp;</TD>
+								<TD align="left" width="200">
+									<span id="lblIntroDateValue" style="font-family:Arial;font-size:10pt;font-weight:bold;width:200px;">2/3/2000</span></TD>
+								<TD align="right" width="120">&nbsp;&nbsp;
+									<span id="lblVersion" style="font-family:Arial;font-size:10pt;width:120px;">Version:</span></TD>
+								<TD width="5">&nbsp;</TD>
+								<TD align="left" width="200">
+									<span id="lblVersionValue" style="font-family:Arial;font-size:10pt;font-weight:bold;">0</span></TD>
+							</TR>
+						</TABLE>
+					
+	</div>
+					<div id="panFinalActionContact" style="height:20px;width:653px;">
+		
+						<TABLE id="tblFinalActionContact" height="20" cellSpacing="1" cellPadding="1" width="653">
+							<TR width="650px">
+								<TD align="left" width="107">
+									<span id="lblFinalAction" style="font-family:Arial;font-size:10pt;width:107px;">Final Action:</span></TD>
+								<TD width="5">&nbsp;</TD>
+								<TD align="left" width="200">
+									<span id="lblFinalActionValue" style="font-family:Arial;font-size:10pt;font-weight:bold;width:200px;">3/30/2000</span></TD>
+								<TD align="right" width="120">&nbsp;&nbsp;
+									<span id="lblContact" style="font-family:Arial;font-size:10pt;width:120px;">Contact:</span></TD>
+								<TD width="5">&nbsp;</TD>
+								<TD align="left" width="200">
+									<span id="lblContactValue" style="font-family:Arial;font-size:10pt;font-weight:bold;"></span></TD>
+							</TR>
+						</TABLE>
+					
+	</div>
+					<!-- nv, effective date start-->
+					<!-- nv, effective date end-->
+					
+					<div id="panSponsors" style="height:40px;width:653px;LEFT: 8px">
+		
+						<TABLE id="tblSponsors" height="40" cellSpacing="1" cellPadding="1" width="653">
+							<TR width="650px">
+								<TD vAlign="top" align="left" width="107" height="40">
+									<span id="lblSponsors" style="font-family:Arial;font-size:10pt;width:107px;">Sponsors:</span></TD>
+								<TD width="5" height="40">&nbsp;</TD>
+								<TD align="left" width="525" height="40">
+									<DIV id="divSponsors" style="OVERFLOW: auto; WIDTH: 528px; HEIGHT: 30px">
+										<span id="lblSponsorsValue" style="font-family:Arial;font-size:10pt;font-weight:bold;height:24px;width:504px;">Councilmember Blackwell</span></DIV>
+								</TD>
+							</TR>
+						</TABLE>
+					
+	</div>
+					<div id="panAttachments" style="height:50px;width:653px;LEFT: 8px">
+		
+						<TABLE cellSpacing="1" cellPadding="1" width="653">
+							<TR Width="650px">
+								<TD vAlign="top" align="left" width="107">
+									<span id="lblAttachments" style="font-family:Arial;font-size:10pt;width:107px;">Attachments:</span></TD>
+								<TD width="5" height="40">&nbsp;</TD>
+								<TD align="left" width="525">
+									<DIV id="divAttachmentsValue" style="OVERFLOW: auto; WIDTH: 527px; HEIGHT: 52px">
+										<span id="dtAttachmentsValue" style="font-family:Arial;font-size:10pt;height:8px;width:488px;Z-INDEX: 144"><span>
+												<a href='http://legislation.phila.gov/attachments/7949.pdf' target='_blank'>Resolution No.00000200.pdf</a>
+											</span></span></DIV>
+								</TD>
+							</TR>
+						</TABLE>
+					
+	</div>
+					<div id="panNextMeeting" style="width:653px;LEFT: 8px">
+		
+						<TABLE id="tblNextMeeting" height="28" cellSpacing="1" cellPadding="1" width="653">
+							<TR width="650px">
+								<TD style="WIDTH: 107px" vAlign="top" align="left" width="107">
+									<span id="lblNextMeeting" style="font-family:Arial;font-size:10pt;width:107px;">Next Meeting:</span></TD>
+								<TD width="5">&nbsp;</TD>
+								<TD vAlign="top" align="left" width="525">
+									<DIV id="divNextMeeting" style="OVERFLOW: auto; WIDTH: 528px; HEIGHT: 46px">
+										<table cellspacing="0" cellpadding="0" align="Left" border="0" id="grdNextMeeting" style="font-family:Arial;font-size:10pt;font-weight:bold;height:32px;width:488px;border-collapse:collapse;">
+
+		</table></DIV> <!----></TD>
+							</TR>
+						</TABLE>
+					
+	</div>
+					<div id="panHistory" style="width:653px;LEFT: 8px">
+		
+						<TABLE cellSpacing="0" cellPadding="0">
+							<TR>
+								<TD style="HEIGHT: 15px">
+									<span id="lblHistory" style="font-family:Arial;font-size:10pt;font-weight:bold;height:4px;width:649px;LEFT: 8px">Legislative History</span></TD>
+							</TR>
+							<TR>
+								<TD><IMG id="imgLine2" style="WIDTH: 650px; HEIGHT: 2px; BACKGROUND-COLOR: black" height="2"
+										alt="" src="img\none_blk.gif" width="650"></TD>
+							</TR>
+							<TR>
+								<TD>
+									<table id="tblHistoryGridHeader" tabindex="12" cellspacing="0" cellpadding="0" border="0" style="color:Black;background-color:White;border-width:0px;font-family:Arial;font-size:XX-Small;font-weight:bold;height:24px;width:650px;border-collapse:collapse;">
+			<tr cellspasing="1">
+				<td align="Left" valign="Middle" style="width:63px;">Date</td><td align="Left" valign="Middle" style="width:221px;">Acting Body</td><td align="Left" valign="Middle" style="width:253px;">Action Taken</td><td align="Left" valign="Middle" style="width:95px;">Motion</td>
+			</tr>
+		</table></TD>
+							</TR>
+							<TR>
+								<TD><IMG id="imgLine3" style="WIDTH: 650px; HEIGHT: 2px; BACKGROUND-COLOR: black" height="2"
+										alt="" src="img\none_blk.gif" width="650"></TD>
+							</TR>
+							<TR>
+								<TD>
+									<DIV id="divScroll" style="Z-INDEX: 106; BACKGROUND-IMAGE: none; OVERFLOW: auto; WIDTH: 651px; HEIGHT: 138px; BACKGROUND-COLOR: transparent; Design_Time_Lock: False"
+										Design_Time_Lock="False">
+										<table cellspacing="1" cellpadding="0" border="0" id="grdHistory" style="background-color:White;font-family:Arial;font-size:10pt;height:40px;width:632px;">
+			<tr align="Left" valign="Top" style="background-color:WhiteSmoke;font-family:Arial;font-size:XX-Small;">
+				<td title="2/3/2000" align="Left" style="width:63px;">2/3/2000</td><td title="CITY COUNCIL" align="Left" style="height:3px;width:221px;">CITY COUNCIL</td><td title="Introduced (By Request) and Referred" align="Left" style="width:253px;">Introduced (By Request) and Referred</td><td title="Pass" align="Left" style="width:95px;">Pass</td>
+			</tr><tr align="Left" valign="Top" style="background-color:White;font-family:Arial;font-size:XX-Small;">
+				<td title="2/3/2000" align="Left" style="width:63px;">2/3/2000</td><td title="CITY COUNCIL" align="Left" style="height:3px;width:221px;">CITY COUNCIL</td><td title="Referred to the Select Committee on Fiscal Stability and Intergovernmental Cooperation " align="Left" style="width:253px;">Referred to the Select Committee on Fiscal Stability and Intergovernmental Cooperation </td><td title=" " align="Left" style="width:95px;"> </td>
+			</tr><tr align="Left" valign="Top" style="background-color:WhiteSmoke;font-family:Arial;font-size:XX-Small;">
+				<td title="2/7/2000" align="Left" style="width:63px;">2/7/2000</td><td title="Select Committee on Fiscal Stability and Intergovernmental Cooperation " align="Left" style="height:3px;width:221px;">Select Committee on Fiscal Stability and Intergovernmental Cooperation </td><td title="RECESSED" align="Left" style="width:253px;">RECESSED</td><td title=" " align="Left" style="width:95px;"> </td>
+			</tr><tr align="Left" valign="Top" style="background-color:WhiteSmoke;font-family:Arial;font-size:XX-Small;">
+				<td align="Left" style="width:63px;"></td><td title="Notes:  Tabled until 3/14/00 at 9:00 A.M." align="Left" align="right" colspan="5" style="font-weight:bold;font-style:italic;height:3px;width:0px;"><b>Notes:</b>  Tabled until 3/14/00 at 9:00 A.M.</td>
+			</tr><tr align="Left" valign="Top" style="background-color:White;font-family:Arial;font-size:XX-Small;">
+				<td title="3/13/2000" align="Left" style="width:63px;">3/13/2000</td><td title="Select Committee on Fiscal Stability and Intergovernmental Cooperation " align="Left" style="height:3px;width:221px;">Select Committee on Fiscal Stability and Intergovernmental Cooperation </td><td title="HEARING NOTICES SENT" align="Left" style="width:253px;">HEARING NOTICES SENT</td><td title=" " align="Left" style="width:95px;"> </td>
+			</tr><tr align="Left" valign="Top" style="background-color:WhiteSmoke;font-family:Arial;font-size:XX-Small;">
+				<td title="3/13/2000" align="Left" style="width:63px;">3/13/2000</td><td title="Select Committee on Fiscal Stability and Intergovernmental Cooperation " align="Left" style="height:3px;width:221px;">Select Committee on Fiscal Stability and Intergovernmental Cooperation </td><td title="RECESSED" align="Left" style="width:253px;">RECESSED</td><td title=" " align="Left" style="width:95px;"> </td>
+			</tr><tr align="Left" valign="Top" style="background-color:WhiteSmoke;font-family:Arial;font-size:XX-Small;">
+				<td align="Left" style="width:63px;"></td><td title="Notes:  tabled until 3/22/00 at 9:30 A.M." align="Left" align="right" colspan="5" style="font-weight:bold;font-style:italic;height:3px;width:0px;"><b>Notes:</b>  tabled until 3/22/00 at 9:30 A.M.</td>
+			</tr><tr align="Left" valign="Top" style="background-color:White;font-family:Arial;font-size:XX-Small;">
+				<td title="3/22/2000" align="Left" style="width:63px;">3/22/2000</td><td title="Select Committee on Fiscal Stability and Intergovernmental Cooperation " align="Left" style="height:3px;width:221px;">Select Committee on Fiscal Stability and Intergovernmental Cooperation </td><td title="HEARING NOTICES SENT" align="Left" style="width:253px;">HEARING NOTICES SENT</td><td title=" " align="Left" style="width:95px;"> </td>
+			</tr><tr align="Left" valign="Top" style="background-color:WhiteSmoke;font-family:Arial;font-size:XX-Small;">
+				<td title="3/22/2000" align="Left" style="width:63px;">3/22/2000</td><td title="Select Committee on Fiscal Stability and Intergovernmental Cooperation " align="Left" style="height:3px;width:221px;">Select Committee on Fiscal Stability and Intergovernmental Cooperation </td><td title="REPORTED FAVORABLY" align="Left" style="width:253px;">REPORTED FAVORABLY</td><td title=" " align="Left" style="width:95px;"> </td>
+			</tr><tr align="Left" valign="Top" style="background-color:White;font-family:Arial;font-size:XX-Small;">
+				<td title="3/23/2000" align="Left" style="width:63px;">3/23/2000</td><td title="CITY COUNCIL" align="Left" style="height:3px;width:221px;">CITY COUNCIL</td><td title="READ" align="Left" style="width:253px;">READ</td><td title=" " align="Left" style="width:95px;"> </td>
+			</tr><tr align="Left" valign="Top" style="background-color:WhiteSmoke;font-family:Arial;font-size:XX-Small;">
+				<td title="3/23/2000" align="Left" style="width:63px;">3/23/2000</td><td title="CITY COUNCIL" align="Left" style="height:3px;width:221px;">CITY COUNCIL</td><td title="ORDERED PLACED ON NEXT WEEK`S CALENDAR" align="Left" style="width:253px;">ORDERED PLACED ON NEXT WEEK`S CALENDAR</td><td title=" " align="Left" style="width:95px;"> </td>
+			</tr><tr align="Left" valign="Top" style="background-color:White;font-family:Arial;font-size:XX-Small;">
+				<td title="3/30/2000" align="Left" style="width:63px;">3/30/2000</td><td title="CITY COUNCIL" align="Left" style="height:3px;width:221px;">CITY COUNCIL</td><td title="ADOPTED" align="Left" style="width:253px;">ADOPTED</td><td title=" " align="Left" style="width:95px;"> </td>
+			</tr>
+		</table></DIV>
+								</TD>
+							</TR>
+							<TR>
+								<TD><IMG id="imgLine4" style="WIDTH: 650px; HEIGHT: 2px; BACKGROUND-COLOR: black" height="2"
+										alt="" src="img\none_blk.gif" width="650">
+								</TD>
+							</TR>
+						</TABLE>
+					
+	</div><!-- ]] approvals panel begins -->
+					<!-- ]] approvals panel ends -->
+					<div id="panDateStamp" style="width:653px;LEFT: 8px">
+		
+						<TABLE cellSpacing="0" cellPadding="0">
+							<TR>
+								<TD>
+									<span id="lblDateStampValue" style="color:Gray;font-family:Arial;font-size:8pt;width:646px;"><br><span class='LPASStyle'>&nbsp;&nbsp;powered by Daystar Computer Systems, Inc.</span></span></TD>
+							</TR>
+						</TABLE>
+					
+	</div></DIV>
+			
+</div></form>
+		<DIV></DIV>
+	</body>
+</HTML>
+

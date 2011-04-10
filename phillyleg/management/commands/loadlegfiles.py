@@ -11,12 +11,19 @@ from django.core.management.base import BaseCommand, CommandError
 import django
 from BeautifulSoup import BeautifulSoup
 
-from phillyleg.models import LegFile
+from phillyleg.models import LegFile, LegAction
 
 class Command(BaseCommand):
     help = "Load new legislative file data from the Legistar city council site."
     
     def handle(self, *args, **options):
+        self._get_updated_files()
+        self._get_new_files()
+    
+    def _get_updated_files(self):
+        pass
+    
+    def _get_new_files(self):
         last_key = get_latest_key()
         curr_key = last_key
 
@@ -26,8 +33,8 @@ class Command(BaseCommand):
             if soup is None:
                 break
             
-            record = scrape_legis_file(curr_key, soup)
-            save_legis_file(record)
+            file_record, action_records = scrape_legis_file(curr_key, soup)
+            save_legis_file(file_record, action_records)
 
 ##
 # The following is adapted from the scraper at 
@@ -35,7 +42,7 @@ class Command(BaseCommand):
 #
 
 starting_url = 'http://legislation.phila.gov/detailreport/?key='
-starting_key = 11001 # The highest key was 11001 as of 5 Apr 2011
+starting_key = 72 # The highest key was 11001 as of 5 Apr 2011
 
 def scrape_legis_file(key, soup):
     '''Extract a record from the given document (soup). The key is for the
@@ -81,9 +88,58 @@ def scrape_legis_file(key, soup):
         'contact' : lcontact,
         'sponsors' : lsponsors
     }
-    print record
-    return record
+    
+    actions = scrape_legis_actions(key, soup)
+    
+    print record, actions
+    return record, actions
 
+def scrape_legis_actions(key, soup):
+
+    def get_action_cell_text(cell):
+        cell_a = cell.find('a')
+        if cell_a:
+            return cell_a.text
+        else:
+            return cell.text
+    
+    def get_action_cell_resource(cell):
+        cell_a = cell.find('a')
+        if cell_a:
+            return cell_a['href']
+        else:
+            return ''
+    
+    actions = []
+    notes = []
+    
+    action_div = soup.find('div', {'id': 'divScroll'})
+    action_rows = action_div.findAll('tr')
+
+    for row in action_rows:
+        cells = row.findAll('td')
+        
+        if len(cells) == 2:
+            # Sometimes, there are notes interspersed in the history table.
+            # Luckily (?) their rows have only two cells instead of four, so
+            # we can easily tell that they're there.
+            action = actions[-1]
+            action['notes'] = cells[1].text
+            continue
+        
+        action = {
+            'key' : key,
+            'date_taken' : get_action_cell_text(cells[0]),
+            'acting_body' : get_action_cell_text(cells[1]),
+            'description' : get_action_cell_text(cells[2]),
+            'motion' : get_action_cell_text(cells[3]),
+            'minutes_url' : get_action_cell_resource(cells[0]),
+            'notes' : '',
+        }
+        actions.append(action)
+    
+    return actions
+    
 def is_error_page(soup):
     '''Check the given soup to see if it represents an error page.'''
     error_p = soup.find('p', 'errorText')
@@ -115,11 +171,23 @@ def check_for_new_content(last_key):
 
     return curr_key, None
 
-def save_legis_file(record):
+def save_legis_file(file_record, action_records):
     """
     Take a legislative file record and do whatever needs to be
     done to get it into the database.
     """
-    legfile = LegFile(**record)
+    legfile = LegFile(**file_record)
     legfile.save()
+    
+    for action_record in action_records:
+        legfile = LegFile.objects.get(key=action_record['key'])
+        del action_record['key']
+        action_record['file'] = legfile
+        
+        legaction = LegAction(**action_record)
+        try:
+            legaction.save()
+        except:
+            # If it's a duplicate, don't worry about it.  Just move on.
+            continue
 
