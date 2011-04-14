@@ -183,10 +183,6 @@ def check_for_new_content(last_key):
 
     return curr_key, None
 
-class CouncilmaticPageFetcher (object):
-    def fetch(self, url):
-        return urllib2.urlopen(url).read()
-
 class CouncilmaticDataStoreWrapper (object):
     """
     This is the interface over an arbitrary database where the information is 
@@ -214,21 +210,21 @@ class CouncilmaticDataStoreWrapper (object):
         legfile.save()
         
         for attachment_record in attachment_records:
-            attachment_record = self._replace_key_with_legfile(attachment_record)
-            self._save_or_ignore(LegFileAttachment, attachment_record)
+            attachment_record = self.__replace_key_with_legfile(attachment_record)
+            self.__save_or_ignore(LegFileAttachment, attachment_record)
         
         for action_record in action_records:
-            action_record = self._replace_key_with_legfile(action_record)
-            self._save_or_ignore(LegAction, action_record)
+            action_record = self.__replace_key_with_legfile(action_record)
+            self.__save_or_ignore(LegAction, action_record)
     
-    def _replace_key_with_legfile(self, record):
+    def __replace_key_with_legfile(self, record):
         legfile = LegFile.objects.get(key=record['key'])
         del record['key']
         record['file'] = legfile
         
         return record
     
-    def _save_or_ignore(self, ModelClass, record):
+    def __save_or_ignore(self, ModelClass, record):
         model_instance = ModelClass(**record)
         try:
             model_instance.save()
