@@ -20,6 +20,9 @@ class Keyword(models.Model):
 class CouncilMember(models.Model):
     subcription = models.ForeignKey(Subscription, null=True)
     name = models.CharField(max_length=100)
+    
+    def __unicode__(self):
+        return self.name
 
 
 class LegFile(models.Model):
@@ -36,6 +39,10 @@ class LegFile(models.Model):
     type = models.CharField(max_length=1000)
     url = models.CharField(max_length=1000)
     version = models.CharField(max_length=100)
+    
+    def __unicode__(self):
+        return "(%s) %s%s" % (self.key, self.title[:100], 
+            '...' if len(self.title) > 100 else '')
 
 class LegFileAttachment(models.Model):
     file = models.ForeignKey(LegFile)
