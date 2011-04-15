@@ -18,7 +18,7 @@ class Keyword(models.Model):
         return self.keyword
 
 class CouncilMember(models.Model):
-    subcription = models.ForeignKey(Subscription)
+    subcription = models.ForeignKey(Subscription, null=True)
     name = models.CharField(max_length=100)
 
 
@@ -30,7 +30,7 @@ class LegFile(models.Model):
     date_scraped = models.CharField(max_length=1000)
     final_date = models.CharField(max_length=1000)
     intro_date = models.CharField(max_length=1000)
-    sponsors = models.CharField(max_length=1000)
+    sponsors = models.ManyToManyField(CouncilMember)
     status = models.CharField(max_length=1000)
     title = models.TextField()
     type = models.CharField(max_length=1000)

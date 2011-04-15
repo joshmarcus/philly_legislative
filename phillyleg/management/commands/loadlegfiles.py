@@ -11,7 +11,8 @@ from django.core.management.base import BaseCommand, CommandError
 import django
 from BeautifulSoup import BeautifulSoup
 
-from phillyleg.models import LegFile, LegFileAttachment, LegAction
+from phillyleg.models import \
+    LegFile, LegFileAttachment, LegAction, CouncilMember
 
 class Command(BaseCommand):
     help = "Load new legislative file data from the Legistar city council site."
@@ -206,13 +207,26 @@ class CouncilmaticDataStoreWrapper (object):
         Take a legislative file record and do whatever needs to be
         done to get it into the database.
         """
+        # Don't include the sponsors list, as the model framework doesn't allow
+        # batch inserting of lists for a ManyToManyField, and we will need to 
+        # insert each sponsor individually.  See below in 'Create the record'.
+        sponsor_names = file_record['sponsors']
+        del file_record['sponsors']
+        
+        # Create the record
         legfile = LegFile(**file_record)
+        for sponsor_name in sponsor_names.split(','):
+            sponsor_name = sponsor_name.strip()
+            sponsor = CouncilMember.objects.get_or_create(name=sponsor_name)[0]
+            legfile.sponsors.add(sponsor)
         legfile.save()
         
+        # Create notes attached to the record
         for attachment_record in attachment_records:
             attachment_record = self.__replace_key_with_legfile(attachment_record)
             self.__save_or_ignore(LegFileAttachment, attachment_record)
         
+        # Create actions attached to the record
         for action_record in action_records:
             action_record = self.__replace_key_with_legfile(action_record)
             self.__save_or_ignore(LegAction, action_record)
