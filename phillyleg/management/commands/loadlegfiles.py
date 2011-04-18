@@ -6,6 +6,7 @@
 #will send out daily email for users - first will read all keywords
 #create text files, then email text files to all each user subscribed.
 
+import datetime
 import urllib2
 from django.core.management.base import BaseCommand, CommandError
 import django
@@ -234,9 +235,9 @@ class CouncilmaticDataStoreWrapper (object):
             action_record = self.__replace_key_with_legfile(action_record)
             self.__save_or_ignore(LegAction, action_record)
     
-    def __convert_or_delete_date(file_record, date_key):
+    def __convert_or_delete_date(self, file_record, date_key):
         if file_record[date_key]:
-            file_record[date_key] = datetime.date.strptime(
+            file_record[date_key] = datetime.datetime.strptime(
                 file_record[date_key], '%m/%d/%Y')
         else:
             del file_record[date_key]

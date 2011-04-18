@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand, CommandError
 import smtplib, poplib
 import django, datetime
 from email.mime.text import MIMEText
-from phillyleg.models import Subscription, Keyword, LegFile
+from phillyleg.models import Subscription, KeywordSubscription, LegFile
 
 class Command(BaseCommand):
 	help = "This script sends daily digests out to subscribers."
@@ -29,23 +29,44 @@ class Command(BaseCommand):
 	def handle(self, *args, **options):
 		emails = Subscription.objects.all()
 		emailbody = self.EMAIL_TITLE+"\n"
+		
 		for em in emails:
-			for k in em.keyword_set.all():
-				emailbody += self.makeBillEmail(str(k))
+			legfile_set = set()
+			
+			# Collect all the keyword leg files.
+			for k in em.keywords.all():
+				if not k:
+					continue
+				
+				legfiles = LegFile.objects\
+					.filter(title__icontains=k)\
+					.filter(last_scraped__gt=em.last_sent)
+					
+				for legfile in legfiles:
+					legfile_set.add(legfile)
+			
+			# Write emails for all the selected leg files
+			emailbody = self.makeBillEmail(
+				legfile_set, [str(k) for k in em.keywords.all()])
+			
+			# Send the email
 			self.send_email(str(em), emailbody)
 			
-	def makeBillEmail(self, keyw):
-		bill = LegFile.objects.filter(title__icontains=keyw)
+	def makeBillEmail(self, bills, keywords=None):
 		body = self.DIVIDER
-		body += "Keyword: "+ keyw + "\n"
+		if keywords:
+			body += "Keywords: %s\n" %  (','.join(keywords))
 		body += self.DIVIDER +"\n"
 		
-		for b in bill:
-			body += b.title + "\n\n"
-			body += "Sponsors: "+b.sponsors + "\n\n"
-			body += "Current Status: "+b.status + "\n\n"
-			body += "Full Text and more information: "+b.url + "\n\n"
-		return "\n"+body + "\n" + self.SINGLE_DIVIDER + "\n"
+		for bill in bills:
+			bill_body = bill.title + "\n\n"
+			bill_body += "Sponsors: %s\n\n" % \
+				(', '.join([s.name for s in bill.sponsors.all()]))
+			bill_body += "Current Status: %s\n\n" % bill.status
+			bill_body += "Full Text and more information: %s\n\n" % bill.url
+			body += "\n%s\n%s\n" % (bill_body, self.SINGLE_DIVIDER)
+		
+		return body
 		
 	
 	
