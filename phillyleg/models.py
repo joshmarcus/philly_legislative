@@ -2,23 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-class Subscription(models.Model):
-#   user   = models.ForeignKey(User, unique=True)
-    email  = models.CharField(max_length=100)
-    lastId = models.IntegerField()
 
-    def __unicode__(self):
-        return self.email
-
-class Keyword(models.Model):
-    subscription = models.ForeignKey(Subscription)
-    keyword = models.CharField(max_length=50)
-    
-    def __unicode__(self):
-        return self.keyword
+#
+# Legislative File models
+#
 
 class CouncilMember(models.Model):
-    subcription = models.ForeignKey(Subscription, null=True)
     name = models.CharField(max_length=100)
     
     def __unicode__(self):
@@ -30,9 +19,10 @@ class LegFile(models.Model):
     id = models.CharField(max_length=100)
     contact = models.CharField(max_length=1000)
     controlling_body = models.CharField(max_length=1000)
-    date_scraped = models.CharField(max_length=1000)
-    final_date = models.CharField(max_length=1000)
-    intro_date = models.CharField(max_length=1000)
+    date_scraped = models.DateTimeField(auto_now_add=True)
+    last_scraped = models.DateTimeField(auto_now=True)
+    final_date = models.DateField(null=True)
+    intro_date = models.DateField(null=True)
     sponsors = models.ManyToManyField(CouncilMember)
     status = models.CharField(max_length=1000)
     title = models.TextField()
@@ -63,4 +53,33 @@ class LegAction(models.Model):
     
     class Meta:
         unique_together = (('file','date_taken','description','notes'),)
+
+
+#
+# Subscription models
+#
+
+class Subscription(models.Model):
+#   user   = models.ForeignKey(User, unique=True)
+    email  = models.CharField(max_length=100)
+    last_sent = models.DateField(auto_now_add=True)
+#    lastId = models.IntegerField()
+
+    def __unicode__(self):
+        return self.email
+
+class KeywordSubscription(models.Model):
+    subscription = models.ForeignKey(Subscription, related_name='keywords')
+    keyword = models.CharField(max_length=50)
+    
+    def __unicode__(self):
+        return self.keyword
+
+class CouncilMemberSubscription(models.Model):
+    subscription = models.ForeignKey(Subscription, related_name='councilmembers')
+    councilmember = models.ForeignKey(CouncilMember)
+    
+    def __unicode__(self):
+        return councilmember.name
+
 
