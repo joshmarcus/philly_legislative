@@ -1,6 +1,6 @@
 # Create your views here.
 from django.http import HttpResponse
-from phillyleg.models import Subscription,Keyword,LegFile
+from phillyleg.models import Subscription,KeywordSubscription,LegFile
 from django.template import Context, loader
 
 def index(request):
@@ -10,23 +10,17 @@ def index(request):
 
 def create(request):
     emailvar = request.POST['email']
-    
-    records = LegFile.objects.order_by('-key')
-    try:
-        lastid = records[0].key
-    except IndexError:
-        lastid = 0
-    
     s = Subscription(email = emailvar, lastId = lastid)
     s.save()
     keywords = request.POST['keywords']
     keylist = keywords.split(",") 
     for word in keylist:
-        k = Keyword(keyword = word, subscription = s)
+        k = KeywordSubscription(keyword = word, subscription = s)
         k.save()
     members = request.POST.getlist('council')
     for mem in members:
-        k = Keyword(keyword = mem, subscription = s)
+        
+        k = KeywordSubscription(keyword = mem, subscription = s)
         k.save()
     t = loader.get_template('received.html')
     c = Context({
