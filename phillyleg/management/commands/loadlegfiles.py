@@ -201,12 +201,15 @@ class CouncilmaticDataStoreWrapper (object):
             return records[0].key
         except IndexError:
             return starting_key
-
+    
     def save_legis_file(self, file_record, attachment_records, action_records):
         """
         Take a legislative file record and do whatever needs to be
         done to get it into the database.
         """
+        file_record = self.__convert_or_delete_date(file_record, 'intro_date')
+        file_record = self.__convert_or_delete_date(file_record, 'final_date')
+        
         # Don't include the sponsors list, as the model framework doesn't allow
         # batch inserting of lists for a ManyToManyField, and we will need to 
         # insert each sponsor individually.  See below in 'Create the record'.
@@ -230,6 +233,15 @@ class CouncilmaticDataStoreWrapper (object):
         for action_record in action_records:
             action_record = self.__replace_key_with_legfile(action_record)
             self.__save_or_ignore(LegAction, action_record)
+    
+    def __convert_or_delete_date(file_record, date_key):
+        if file_record[date_key]:
+            file_record[date_key] = datetime.date.strptime(
+                file_record[date_key], '%m/%d/%Y')
+        else:
+            del file_record[date_key]
+        
+        return file_record
     
     def __replace_key_with_legfile(self, record):
         legfile = LegFile.objects.get(key=record['key'])
