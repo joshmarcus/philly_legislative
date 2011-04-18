@@ -10,7 +10,7 @@ def index(request):
 
 def create(request):
     emailvar = request.POST['email']
-    s = Subscription(email = emailvar, lastId = lastid)
+    s = Subscription(email = emailvar)
     s.save()
     keywords = request.POST['keywords']
     keylist = keywords.split(",") 
