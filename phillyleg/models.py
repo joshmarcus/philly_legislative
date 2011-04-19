@@ -16,7 +16,7 @@ class CouncilMember(models.Model):
 
 class LegFile(models.Model):
     key = models.IntegerField(primary_key=True)
-    id = models.CharField(max_length=100)
+    id = models.CharField(max_length=100, null=True)
     contact = models.CharField(max_length=1000)
     controlling_body = models.CharField(max_length=1000)
     date_scraped = models.DateTimeField(auto_now_add=True)

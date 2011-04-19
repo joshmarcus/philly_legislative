@@ -7,6 +7,7 @@
 #create text files, then email text files to all each user subscribed.
 
 import datetime
+import sqlite3
 import urllib2
 from django.core.management.base import BaseCommand, CommandError
 import django
@@ -28,7 +29,7 @@ class Command(BaseCommand):
     def _get_new_files(self):
         # Create a datastore wrapper object
         ds = CouncilmaticDataStoreWrapper()
-        source = PhillyLegistarSiteWrapper()
+        source = ScraperWikiSourceWrapper()
 
         # Get the latest filings
         curr_key = ds.get_latest_key()
@@ -43,9 +44,9 @@ class Command(BaseCommand):
             ds.save_legis_file(record, attachments, actions)
             
 
+STARTING_KEY = 72 # The highest key was 11001 as of 5 Apr 2011
 class PhillyLegistarSiteWrapper (object):
     STARTING_URL = 'http://legislation.phila.gov/detailreport/?key='
-    STARTING_KEY = 72 # The highest key was 11001 as of 5 Apr 2011
 
     def scrape_legis_file(self, key, soup):
         '''Extract a record from the given document (soup). The key is for the
@@ -186,6 +187,114 @@ class PhillyLegistarSiteWrapper (object):
 
         return curr_key, None
 
+class ScraperWikiSourceWrapper (object):
+    __cursor = None
+    
+    def scrape_legis_file(self, key, cursor):
+        '''Extract a record from the given document (soup). The key is for the
+           sake of record-keeping.  It is the key passed to the site URL.'''
+        
+        cursor.execute('''select
+            id,type,url,status,title,controlling_body,intro_date,final_date,
+            version,contact,sponsors from swdata where key=?''', (key,))
+        
+        row = cursor.fetchone()
+        print row
+        lid, ltype, lurl, lstatus, ltitle, lbody, lintro, lfinal, \
+        lversion, lcontact, lsponsors = row
+        
+        record = {
+            'key' : key,
+            'id' : lid,
+            'url' : lurl,
+            'type' : ltype,
+            'status' : lstatus,
+            'title' : ltitle,
+            'controlling_body' : lbody,
+            'intro_date' : lintro,
+            'final_date' : lfinal,
+            'version' : lversion,
+            'contact' : lcontact,
+            'sponsors' : lsponsors
+        }
+        
+        attachments = self.scrape_legis_attachments(key, cursor)
+        actions = self.scrape_legis_actions(key, cursor)
+        
+        print record, attachments, actions
+        return record, attachments, actions
+
+    def scrape_legis_attachments(self, key, cursor):
+        
+        cursor.execute('''select description,url
+            from attachments where key=?''', (key,))
+        
+        attachments = []
+        
+        for row in cursor:
+            attachment = {
+                'key' : key,
+                'description' : row[0],
+                'url' : row[1],
+            }
+            attachments.append(attachment)
+
+        return attachments
+
+    def scrape_legis_actions(self, key, cursor):
+        
+        cursor.execute('''select 
+            date_taken,acting_body,description,motion,minutes_url,notes
+            from actions where key=?''', (key,))
+        
+        actions = []
+        
+        for action_row in cursor:
+            action = {
+                'key' : key,
+                'date_taken' : action_row[0],
+                'acting_body' : action_row[1],
+                'description' : action_row[2],
+                'motion' : action_row[3],
+                'minutes_url' : action_row[4],
+                'notes' : action_row[5],
+            }
+            actions.append(action)
+        
+        return actions
+        
+    def __download_db(self):
+        print "Downloading the database (~20M -- this may take a while)..."
+        db_file = urllib2.urlopen('http://scraperwiki.com/scrapers/export_sqlite/philadelphia_legislative_files/')
+        db = db_file.read()
+        outfile = open('swdata.sqlite3', 'w')
+        outfile.write(db)
+        outfile.close()
+    
+    def __connect_to_db(self):
+        conn = sqlite3.connect('swdata.sqlite3')
+        self.__cursor = conn.cursor()
+
+    def check_for_new_content(self, last_key):
+        '''Look through the next 10 keys to see if there are any more files.
+           10 is arbitrary, but I feel like it's large enough to be safe.'''
+        
+        if not self.__cursor:
+            self.__download_db()
+            self.__connect_to_db()
+        
+        cursor = self.__cursor
+        
+        cursor.execute('''select key 
+            from swdata 
+            where key > ?
+            order by key''', (last_key,))
+        
+        row = cursor.fetchone()
+        if row:
+            return int(row[0]), cursor
+
+        return curr_key, None
 
 class CouncilmaticDataStoreWrapper (object):
     """
@@ -203,7 +312,7 @@ class CouncilmaticDataStoreWrapper (object):
         try:
             return records[0].key
         except IndexError:
-            return starting_key
+            return STARTING_KEY
     
     def save_legis_file(self, file_record, attachment_records, action_records):
         """
