@@ -1,6 +1,6 @@
 # Create your views here.
 from django.http import HttpResponse
-from phillyleg.models import Subscription,Keyword
+from phillyleg.models import Subscription,KeywordSubscription,LegFile
 from django.template import Context, loader
 
 def index(request):
@@ -15,11 +15,12 @@ def create(request):
     keywords = request.POST['keywords']
     keylist = keywords.split(",") 
     for word in keylist:
-        k = Keyword(keyword = word, subscription = s)
+        k = KeywordSubscription(keyword = word, subscription = s)
         k.save()
     members = request.POST.getlist('council')
     for mem in members:
-        k = Keyword(keyword = mem, subscription = s)
+        
+        k = KeywordSubscription(keyword = mem, subscription = s)
         k.save()
     t = loader.get_template('received.html')
     c = Context({
