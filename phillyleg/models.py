@@ -11,7 +11,7 @@ class CouncilMember(models.Model):
     name = models.CharField(max_length=100)
     
     def __unicode__(self):
-        return self.name
+        return self.name.lstrip("Councilmember")
 
 
 class LegFile(models.Model):
@@ -80,6 +80,6 @@ class CouncilMemberSubscription(models.Model):
     councilmember = models.ForeignKey(CouncilMember)
     
     def __unicode__(self):
-        return councilmember.name
+        return councilmember
 
 

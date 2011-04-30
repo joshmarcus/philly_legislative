@@ -1,6 +1,6 @@
 # Create your views here.
 from django.http import HttpResponse
-from phillyleg.models import Subscription,KeywordSubscription,LegFile,CouncilMember
+from phillyleg.models import Subscription,KeywordSubscription,LegFile,CouncilMember,CouncilMemberSubscription
 from django.template import Context, loader
 
 def index(request):
@@ -21,9 +21,9 @@ def create(request):
         k.save()
     members = request.POST.getlist('council')
     for mem in members:
-        
-        k = KeywordSubscription(keyword = mem, subscription = s)
-        k.save()
+    	cmember = CouncilMember.objects.get(id=mem)
+        cm = CouncilMemberSubscription(councilmember = cmember, subscription = s)
+        cm.save()
     t = loader.get_template('received.html')
     c = Context({
         'emailvar': emailvar,
