@@ -69,7 +69,7 @@
 		<p>Enter a list of words separated by commas. Your daily email will list all bills that contain any of these words.</p>
 		<textarea name="keywords" id="keywords" rows="6" cols="30"></textarea>
 		<p>Select one or more council members whose legislation you want to subscribe to.</p>
-		<select multiple="multiple" name="council" id="council" size="10">
+		<select multiple="multiple" name="council" id="council" size="10" style="width: 20%;">
 			{% if council_members %}
 			{% for c in council_members %}
 				<option id="{{c.id}}">{{c}}</option>
