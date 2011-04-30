@@ -20,15 +20,17 @@ def create(request):
         k = KeywordSubscription(keyword = word, subscription = s)
         k.save()
     members = request.POST.getlist('council')
+    ret_members = []
     for mem in members:
     	cmember = CouncilMember.objects.get(id=mem)
+    	ret_members.append(cmember)
         cm = CouncilMemberSubscription(councilmember = cmember, subscription = s)
         cm.save()
     t = loader.get_template('received.html')
     c = Context({
         'emailvar': emailvar,
         'keylist': keylist,
-        'members': members
+        'members': ret_members
     })
     return HttpResponse(t.render(c))
 
