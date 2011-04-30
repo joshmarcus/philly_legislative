@@ -1,11 +1,13 @@
 # Create your views here.
 from django.http import HttpResponse
-from phillyleg.models import Subscription,KeywordSubscription,LegFile
+from phillyleg.models import Subscription,KeywordSubscription,LegFile,CouncilMember
 from django.template import Context, loader
 
 def index(request):
     t = loader.get_template('subscribe.html')
-    c = Context()
+    c = Context({
+    	'council_members': CouncilMember.objects.all()
+    })
     return HttpResponse(t.render(c))
 
 def create(request):

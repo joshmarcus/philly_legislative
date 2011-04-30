@@ -69,25 +69,14 @@
 		<p>Enter a list of words separated by commas. Your daily email will list all bills that contain any of these words.</p>
 		<textarea name="keywords" id="keywords" rows="6" cols="30"></textarea>
 		<p>Select one or more council members whose legislation you want to subscribe to.</p>
-		<select multiple="multiple" name="council" id="council">
-			<option value="Blackwell">Blackwell, Jannie</option>
-			<option value="Clarke">Clarke, Darrell</option>
-			<option value="DiCiccio">DiCiccio, Frank</option>
-			<option value="Goode">Goode, Jr., W. Wilson</option>
-			<option value="Green">Green, Bill</option>
-			<option value="Greenlee">Greenlee, William K.</option>
-			<option value="Jones">Jones, Jr., Curtis</option>
-			<option value="Kelly">Kelly, Jack</option>
-			<option value="Kenney">Kenney, James</option>
-			<option value="Krajewski">Krajewski, Joan</option>
-			<option value="Miller">Miller, Donna</option>
-			<option value="O'Neill">O'Neill, Brian</option>
-			<option value="Quiñones-Sánchez">Quiñones-Sánchez, Maria D.</option>
-			<option value="Reynolds Brown">Reynolds Brown, Blondell</option>
-			<option value="Rizzo">Rizzo, Jr., Frank</option>
-			<option value="Tasco">Tasco, Marian</option>
-			<option value="Verna">Verna, Anna</option>	
+		<select multiple="multiple" name="council" id="council" size="10">
+			{% if council_members %}
+			{% for c in council_members %}
+				<option id="{{c.id}}">{{c}}</option>
+			{% endfor %}
+			{% endif %}
 		</select><br/>
+		
 		<input type="submit" value="Subscribe" id="subscribe"/>
 	</form>
 	</div>
